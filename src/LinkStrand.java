@@ -87,10 +87,14 @@ public class LinkStrand implements IDnaStrand {
 	}
 
 	@Override
-	public char charAt(int index) {
+	public char charAt(int index) throws IndexOutOfBoundsException {
 		int count = myIndex;
 		int dex = myLocalIndex;
 		Node list = myCurrent;
+		
+		if (index > mySize - 1) {
+			throw new IndexOutOfBoundsException();
+		}
 		
 		if (index < count) {
 			count = 0;
