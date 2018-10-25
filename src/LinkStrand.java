@@ -7,10 +7,13 @@ public class LinkStrand implements IDnaStrand {
 			next = null;
 		}
 	}
-	
+
 	private Node myFirst, myLast;
 	private long mySize;
 	private int myAppends;
+	private int myIndex;
+	private int myLocalIndex;
+	private Node myCurrent;
 
 	public LinkStrand(String s) {
 		initialize(s);
@@ -19,7 +22,7 @@ public class LinkStrand implements IDnaStrand {
 	public LinkStrand() {
 		this("");
 	}
-	
+
 	@Override
 	public void initialize(String source) {
 		Node firstnode = new Node(source);
@@ -27,17 +30,24 @@ public class LinkStrand implements IDnaStrand {
 		myLast = myFirst;
 		mySize = source.length();
 		myAppends = 0;
+		myIndex = 0;
+		myLocalIndex = 0;
+		myCurrent = myFirst;
 	}
-	
+
 	@Override
 	public long size() {
 		return mySize;
 	}
-	
+
+	@Override
+	public int getAppendCount() {
+		return myAppends;
+	}
+
 	@Override
 	public IDnaStrand getInstance(String source) {
-		// TODO Auto-generated method stub
-		return null;
+		return new LinkStrand(source);
 	}
 
 	@Override
@@ -55,45 +65,65 @@ public class LinkStrand implements IDnaStrand {
 		StringBuilder copy = new StringBuilder(myFirst.info);
 		copy.reverse();
 		LinkStrand reversed = new LinkStrand(copy.toString());
-		
+
 		Node n = myFirst;
 		n = n.next;
 		Node nextnode = reversed.myFirst;
-		
+
 		while (n != null) {
 			StringBuilder reversetext = new StringBuilder(n.info);
 			n.info = reversetext.reverse().toString();
-			
+
 			reversed.myFirst = n;
 			reversed.myFirst.next = nextnode;
 			nextnode = n;
 			n = n.next;
 		}
-		
+
+		reversed.mySize = mySize;
+		reversed.myAppends = myAppends;
+
 		return reversed;
 	}
 
 	@Override
-	public int getAppendCount() {
-		return myAppends;
+	public char charAt(int index) {
+		int count = myIndex;
+		int dex = myLocalIndex;
+		Node list = myCurrent;
+		
+		if (index < count) {
+			count = 0;
+			dex = 0;
+			list = myFirst;
+		}
+
+		while (count != index) {
+			count++;
+			dex++;
+			if (dex >= list.info.length()) {
+				dex = 0;
+				list = list.next;
+			}
+		}
+		
+		myIndex = count;
+		myLocalIndex = dex;
+		myCurrent = list;
+		
+		return list.info.charAt(dex);
 	}
 
-	@Override
-	public char charAt(int index) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
 	@Override
 	public String toString() {
 		Node n = myFirst;
 		StringBuilder build = new StringBuilder();
-		
+
 		while (n != null) {
 			build.append(n.info);
 			n = n.next;
 		}
-		
+
 		return build.toString();
 	}
 }
