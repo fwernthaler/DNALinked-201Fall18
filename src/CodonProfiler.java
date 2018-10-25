@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class CodonProfiler {
-	
+
 	/**
 	 * Count how many times each codon in an array of codons occurs
 	 * in a strand of DNA. Return int[] such that int[k] is number
@@ -15,25 +15,33 @@ public class CodonProfiler {
 	public int[] getCodonProfile(IDnaStrand strand, String[] codons) {
 		HashMap<String,Integer> map = new HashMap<>();
 		int[] ret = new int[codons.length];
-				
-		for(int k=0; k < codons.length; k++) {
-			Iterator<Character> iter = strand.iterator();
-			while (iter.hasNext()) {
-				char a = iter.next();
-				char b = 'z';           // not part of any real codon
-				char c = 'z';
-				if (iter.hasNext()) {
-					b = iter.next();
-				}
-				if (iter.hasNext()) {
-					c = iter.next();
-				}
-				String cod = ""+a+b+c;
-				if (cod.equals(codons[k])) {
-					ret[k] += 1;
-				}
+
+		for (String codon : codons) {
+			map.put(codon, 0);
+		}
+
+		Iterator<Character> iter = strand.iterator();
+		while (iter.hasNext()) {
+			char a = iter.next();
+			char b = 'z';           // not part of any real codon
+			char c = 'z';
+			if (iter.hasNext()) {
+				b = iter.next();
+			}
+			if (iter.hasNext()) {
+				c = iter.next();
+			}
+			String cod = "" + a + b + c;
+
+			if (map.containsKey(cod)) {
+				map.put(cod, map.get(cod) + 1);
+			}
+
+			for(int i = 0; i < codons.length; i += 1) {
+				ret[i] = map.get(codons[i]);
 			}
 		}
+
 		return ret;
 	}
 }
