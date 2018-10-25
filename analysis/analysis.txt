@@ -7,3 +7,32 @@ Questions here will come from the assignment
 writeup. Be sure to copy paste questions and 
 your explanations before you push to GitHub and
 do that before uploading to Gradescope
+
+
+StringStrand:
+dna length = 4,639,221
+cutting at enzyme gaattc
+-----
+Class	                splicee	      recomb	time	appends
+-----
+StringStrand:	            256	      4,800,471	0.679	1290
+StringStrand:	            512	      4,965,591	0.811	1290
+StringStrand:	          1,024	      5,295,831	0.832	1290
+StringStrand:	          2,048	      5,956,311	0.844	1290
+StringStrand:	          4,096	      7,277,271	1.081	1290
+StringStrand:	          8,192	      9,919,191	1.866	1290
+StringStrand:	         16,384	     15,203,031	2.866	1290
+StringStrand:	         32,768	     25,770,711	5.668	1290
+StringStrand:	         65,536	     46,906,071	9.829	1290
+StringStrand:	        131,072	     89,176,791	19.770	1290
+StringStrand:	        262,144	    173,718,231	45.404	1290
+StringStrand:	        524,288	    342,801,111	77.514	1290
+StringStrand:	      1,048,576	    680,966,871	144.978	1290
+Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+	at StringStrand.append(StringStrand.java:70)
+	at IDnaStrand.cutAndSplice(IDnaStrand.java:37)
+	at DNABenchmark.lambda$0(DNABenchmark.java:76)
+	at DNABenchmark$$Lambda$145/371800738.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+	at DNABenchmark.strandSpliceBenchmark(DNABenchmark.java:79)
+	at DNABenchmark.main(DNABenchmark.java:113)
