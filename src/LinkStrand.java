@@ -64,15 +64,15 @@ public class LinkStrand implements IDnaStrand {
 	public IDnaStrand reverse() {
 		LinkStrand original = this;
 		LinkStrand reversed = new LinkStrand();
-		
+
 		Node list = original.myFirst;
 
 		while (list != null) {
 			StringBuilder reversetext = new StringBuilder(list.info);
 			String reversedtext = reversetext.reverse().toString();
-			
+
 			LinkStrand first = new LinkStrand(reversedtext);
-			
+
 			Node n = reversed.myFirst;
 			while (n != null) {
 				first.append(n.info);
@@ -93,11 +93,11 @@ public class LinkStrand implements IDnaStrand {
 		int count = myIndex;
 		int dex = myLocalIndex;
 		Node list = myCurrent;
-		
+
 		if (index > mySize - 1) {
 			throw new IndexOutOfBoundsException();
 		}
-		
+
 		if (index < count) {
 			count = 0;
 			dex = 0;
@@ -107,16 +107,18 @@ public class LinkStrand implements IDnaStrand {
 		while (count != index) {
 			count++;
 			dex++;
-			if (dex >= list.info.length()) {
-				dex = 0;
-				list = list.next;
+			if (list != null) {
+				if (dex >= list.info.length()) {
+					dex = 0;
+					list = list.next;
+				}
 			}
 		}
-		
+
 		myIndex = count;
 		myLocalIndex = dex;
 		myCurrent = list;
-		
+
 		return list.info.charAt(dex);
 	}
 
