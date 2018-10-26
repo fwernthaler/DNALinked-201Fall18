@@ -1,5 +1,13 @@
 import java.util.*;
 
+/**
+ * Efficient program to determine number of times
+ * each given codon occurs in a strand of DNA
+ * 
+ * @author Florian Wernthaler and Jordan McGilvery
+ *
+ */
+
 public class CodonProfiler {
 
 	/**

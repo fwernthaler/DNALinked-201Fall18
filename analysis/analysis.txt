@@ -1,15 +1,18 @@
-Your Name here
-Your NetID here
-Your Partner's name here (or erase)
+Florian Wernthaler
+flw5
+Jordan McGilvery
 Your Partner's NetID here (or erase)
 
 Questions here will come from the assignment
 writeup. Be sure to copy paste questions and 
 your explanations before you push to GitHub and
 do that before uploading to Gradescope
+(1) Are the benchmark timings for StringStrand consistent with the explanation
+below that the time to execute cutAndSplice is O(b2S)? 
 
 
 StringStrand:
+
 dna length = 4,639,221
 cutting at enzyme gaattc
 -----
@@ -36,3 +39,74 @@ Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
 	at java.base/java.lang.Thread.run(Unknown Source)
 	at DNABenchmark.strandSpliceBenchmark(DNABenchmark.java:79)
 	at DNABenchmark.main(DNABenchmark.java:113)
+
+
+
+StringBuilderStrand:
+
+dna length = 4,639,221
+cutting at enzyme gaattc
+-----
+Class	                splicee	      recomb	time	appends
+-----
+StringBuilderStrand:	            256	      4,800,471	0.028	1290
+StringBuilderStrand:	            512	      4,965,591	0.020	1290
+StringBuilderStrand:	          1,024	      5,295,831	0.009	1290
+StringBuilderStrand:	          2,048	      5,956,311	0.009	1290
+StringBuilderStrand:	          4,096	      7,277,271	0.010	1290
+StringBuilderStrand:	          8,192	      9,919,191	0.009	1290
+StringBuilderStrand:	         16,384	     15,203,031	0.016	1290
+StringBuilderStrand:	         32,768	     25,770,711	0.045	1290
+StringBuilderStrand:	         65,536	     46,906,071	0.060	1290
+StringBuilderStrand:	        131,072	     89,176,791	0.139	1290
+StringBuilderStrand:	        262,144	    173,718,231	0.209	1290
+StringBuilderStrand:	        524,288	    342,801,111	0.370	1290
+StringBuilderStrand:	      1,048,576	    680,966,871	0.691	1290
+Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+	at java.base/java.util.Arrays.copyOf(Unknown Source)
+	at java.base/java.lang.AbstractStringBuilder.ensureCapacityInternal(Unknown Source)
+	at java.base/java.lang.AbstractStringBuilder.append(Unknown Source)
+	at java.base/java.lang.StringBuilder.append(Unknown Source)
+	at StringBuilderStrand.append(StringBuilderStrand.java:70)
+	at IDnaStrand.cutAndSplice(IDnaStrand.java:41)
+	at DNABenchmark.strandSpliceBenchmark(DNABenchmark.java:67)
+	at DNABenchmark.main(DNABenchmark.java:113)
+
+
+
+LinkStrand
+
+dna length = 4,639,221
+cutting at enzyme gaattc
+-----
+Class	                splicee	      recomb	time	appends
+-----
+LinkStrand:	            256	      4,800,471	0.028	1290
+LinkStrand:	            512	      4,965,591	0.021	1290
+LinkStrand:	          1,024	      5,295,831	0.006	1290
+LinkStrand:	          2,048	      5,956,311	0.004	1290
+LinkStrand:	          4,096	      7,277,271	0.005	1290
+LinkStrand:	          8,192	      9,919,191	0.007	1290
+LinkStrand:	         16,384	     15,203,031	0.004	1290
+LinkStrand:	         32,768	     25,770,711	0.005	1290
+LinkStrand:	         65,536	     46,906,071	0.006	1290
+LinkStrand:	        131,072	     89,176,791	0.006	1290
+LinkStrand:	        262,144	    173,718,231	0.006	1290
+LinkStrand:	        524,288	    342,801,111	0.005	1290
+LinkStrand:	      1,048,576	    680,966,871	0.007	1290
+LinkStrand:	      2,097,152	  1,357,298,391	0.005	1290
+LinkStrand:	      4,194,304	  2,709,961,431	0.008	1290
+LinkStrand:	      8,388,608	  5,415,287,511	0.004	1290
+LinkStrand:	     16,777,216	 10,825,939,671	0.004	1290
+LinkStrand:	     33,554,432	 21,647,243,991	0.006	1290
+LinkStrand:	     67,108,864	 43,289,852,631	0.007	1290
+LinkStrand:	    134,217,728	 86,575,069,911	0.006	1290
+LinkStrand:	    268,435,456	173,145,504,471	0.007	1290
+LinkStrand:	    536,870,912	346,286,373,591	0.008	1290
+LinkStrand:	  1,073,741,824	692,568,111,831	0.008	1290
+Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+	at java.base/java.util.Arrays.copyOf(Unknown Source)
+	at java.base/java.lang.AbstractStringBuilder.ensureCapacityInternal(Unknown Source)
+	at java.base/java.lang.AbstractStringBuilder.append(Unknown Source)
+	at java.base/java.lang.StringBuilder.append(Unknown Source)
+	at DNABenchmark.main(DNABenchmark.java:110)
