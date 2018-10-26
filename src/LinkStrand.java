@@ -62,22 +62,24 @@ public class LinkStrand implements IDnaStrand {
 
 	@Override
 	public IDnaStrand reverse() {
-		StringBuilder copy = new StringBuilder(myFirst.info);
-		copy.reverse();
-		LinkStrand reversed = new LinkStrand(copy.toString());
+		LinkStrand original = this;
+		LinkStrand reversed = new LinkStrand();
+		
+		Node list = original.myFirst;
 
-		Node n = myFirst;
-		n = n.next;
-		Node nextnode = reversed.myFirst;
-
-		while (n != null) {
-			StringBuilder reversetext = new StringBuilder(n.info);
-			n.info = reversetext.reverse().toString();
-
-			reversed.myFirst = n;
-			reversed.myFirst.next = nextnode;
-			nextnode = n;
-			n = n.next;
+		while (list != null) {
+			StringBuilder reversetext = new StringBuilder(list.info);
+			String reversedtext = reversetext.reverse().toString();
+			
+			LinkStrand first = new LinkStrand(reversedtext);
+			
+			Node n = reversed.myFirst;
+			while (n != null) {
+				first.append(n.info);
+				n = n.next;
+			}
+			reversed = first;
+			list = list.next;
 		}
 
 		reversed.mySize = mySize;
