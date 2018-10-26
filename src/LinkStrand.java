@@ -107,7 +107,7 @@ public class LinkStrand implements IDnaStrand {
 		while (count != index) {
 			count++;
 			dex++;
-			if (list != null) {
+			if (list.next != null) {
 				if (dex >= list.info.length()) {
 					dex = 0;
 					list = list.next;
