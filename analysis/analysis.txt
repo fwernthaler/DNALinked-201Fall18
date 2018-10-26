@@ -9,7 +9,11 @@ your explanations before you push to GitHub and
 do that before uploading to Gradescope
 
 (1) Are the benchmark timings for StringStrand consistent with the explanation
-below that the time to execute cutAndSplice is O(b^2S)? 
+below that the time to execute cutAndSplice is O(b^2(S))?
+Note that the value of b is half the number of calls to append since each cut
+(except the first) is modeled by two calls of append in the method cutAndSplice
+-- see the code. This means that b2 will be constant in the benchmark, but S
+will vary. 
 
 Yes, they are consistent. Since b^2 is constant and S (the length of the splicee) varies, one would
 expect the time to be proportional to S (e.g. time approximately doubles if S doubles). The data
@@ -47,7 +51,23 @@ Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
 
 
 (2) Are the benchmark timings for StringBuilderStrand consistent with the
-explanation below that the time to execute cutAndSplice is O(bS)? 
+explanation below that the time to execute cutAndSplice is O(bS)?
+Note that the value of b is half the number of calls to append since each cut
+(except the first) is modeled by two calls of append in the method cutAndSplice
+-- see the code. This means that b2 will be constant in the benchmark, but S
+will vary. 
+
+Yes, they are consistent. All the timings are considerably faster than the times for StringStrand,
+which is to be expected, since StringStrand is O(b^2(S)). Since b is constant, we would expect the
+times to increase proportionally as s is increased. S doubles with each successive test, so we
+would expect time to roughly double if it is O(bS), which it approximately does for the last three
+tests. The initial tests don’t show much of a consistent pattern in terms of time changes, which is
+likely due to internal factors in the computer’s timing mechanism. Also, it is worth noting that
+because of the increased efficiency of StringBuilderStrand, small splicees and correspondingly
+small strand lengths take a very small amount of time to build. Because of this, increasing a
+strand by a small amount of nucleotides shouldn’t affect the runtime that much, if it is truly
+O(bS). Compared to an efficiency of O(b^2(S)), we should see a much smaller difference in times for
+the shorter strands. This is reflected in the benchmark times. 
 
 dna length = 4,639,221
 cutting at enzyme gaattc
@@ -83,6 +103,19 @@ the runs in the benchmark program. Explain why you think memory is exhausted at
 the specific strand size you see in your timings -- as compared to exhaustion
 for String and StringBuilder.
 
+The time doesn’t change much because the node for the splicee is only created once. The splicee is
+not re-created at every recombination site; its node is simply linked in. Linking in the node is an
+O(1) operation, and because of this, no matter how long the splicee is, the time required is
+insignificant. Creating the node for the splicee one time hardly takes any time at all. 
+Memory is exhausted with a strand of size 692,568,111,831 for LinkStrand, which is a lot larger
+than when memory is exhausted for String and StringBuilder (which are exhausted at strands of
+length 680,966,871). This occurs because in LinkStrand the node for the splicee is only created
+once, so each time the splicee is put into the new strand, it is simply linked in. Because only one
+copy of the splicee is needed, this saves a lot more memory compared to String and StringBuilder,
+each of which re-generate a new string for the splicee every time. These extra copies of the
+splicee cause String and StringBuilder to use up much more memory for strands compared to
+LinkStrand, which allows LinkStrand to build much longer Strands before it runs out of memory.
+
 dna length = 4,639,221
 cutting at enzyme gaattc
 -----
@@ -117,4 +150,3 @@ Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
 	at java.base/java.lang.AbstractStringBuilder.append(Unknown Source)
 	at java.base/java.lang.StringBuilder.append(Unknown Source)
 	at DNABenchmark.main(DNABenchmark.java:110)
-
